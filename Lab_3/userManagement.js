@@ -10,15 +10,30 @@ function hashPassword(password) {
     return hash.toString();
 }
 
-export const registerUser = (user) => {
+export const registerUser = async (user) => {
     // Hash the password before storing
     user.password = hashPassword(user.password);
+
+    await fetch(url + '/users', {
+        method: 'POST', 
+        mode: 'cors', 
+        cache: 'no-cache', 
+        credentials: 'same-origin', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        redirect: 'follow', 
+        referrerPolicy: 'no-referrer', 
+        body: JSON.stringify(user)
+    })
 
     let users = JSON.parse(localStorage.getItem('users')) || []
     users.push(user);
     localStorage.setItem('users', JSON.stringify(users));
 
     localStorage.setItem('isAuthenticated', 'false');
+
+    const registerUser = async ()
 
     console.log('New user added', user);
 }

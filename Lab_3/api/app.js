@@ -6,6 +6,7 @@ const cors = require('cors');
 const port = 3000;
 
 const TaskManager = require('./taskManagement');
+const UserManager = require('./userManagement');
 
 app.use(httpLogger('dev'));
 app.use(cors()) //see more at https://www.npmjs.com/package/cors
@@ -25,6 +26,12 @@ app.get('/tasks', (req, res) => {
     // };
     res.status(200).send(tasks);
 })
+
+app.post('/users', (req, res) => {
+  const user = req.body;
+  const userToAdd = UserManager.registerUser(user);
+  res.status(200).send(userToAdd);
+});
 
 app.post('/data', (req, res) => {
   let data = req.body
